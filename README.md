@@ -16,8 +16,8 @@ I plan to acheive a basic network infrastructure with this setup, and continue t
 - Clear documentation of design decisions and trade-offs
 
 ## Architecture (Current Direction)
-- Raspberry Pi OS (NetworkManager with static IP)
-- Host-level VPN (Tailscale)
+- Raspberry Pi OS (With static IP)
+- Host-level VPN
 - Docker-based services (DNS, monitoring, management)
 
 ## Why This Project Exists
