@@ -1,6 +1,8 @@
 # VPN
 
-This document covers VPN access decisions and setup, including the use of WireGuard.
+This document describes how I deployed Tailscale as a 
+subnet router on a Raspberry Pi to provide secure remote access 
+to an entire home lab network, even behind double NAT / ISP-locked routers.
 
 ## End Goal
 
@@ -10,26 +12,25 @@ that I may need. This is including but not limited to:
 my routers admin page, Pihole management, and Uptime Kuma
 mobile interface monitoring.
 
+## This setup gives me the ability to:
+- SSH into any LAN device from any location
+- Access router, switch, and any service admin page
+- Cut out port forwarding
+- Not have any headaches with ISP router
 
-## Iterations
+## Host Details:
 
-Tailscale was evaluated for simplicity but deferred due to client-side
-installation issues on Windows. WireGuard was selected instead for its
-predictability, native client support, and full control over key management.
+- Device: Raspberry Pi (ARM64)
+- OS: Raspberry Pi OS (64-bit)
+- VPN: Tailscale (installed on host OS)
 
-Here is the next problem I ran into, since the orginal router has the better WiFi card causing 
-a secondary router to be in the picture, port forwarding becomes a large issue.
-The plan being to double port-forward (although not the best practice it made the 
-most sense with my current living situation) The primary router does not
-have the option to port-foward to another router. This led me to a design 
-iteration in the phsyical topology of my network. I now have my Raspberry 
-Pi plugged into the primary router, and I will use it to control anything that 
-may need to be done in order for applications to run on the secondary router.
+## Design Benchmarks:
 
-## Approach
+- No inbound ports
+- Full LAN remote access
+- No changes to ISP router
 
-This has led me to my current approach, WireGuard with the 
-Raspberry Pi plugged directly into the primary router.
+## Summary:
 
-## Key Commands
-
+This setup turns my Pi into a secure, always available 
+gateway to my home network for ease of access, without dealing with any ISP restrictions.
