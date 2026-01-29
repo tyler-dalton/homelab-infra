@@ -35,6 +35,7 @@ services:
 - Raspberry Pi
 - Raspberry Pi SSH
 - Uptime Kuma (self-monitor)
+- Tailscale (gateway)
 
 As more applications are added, this list will grow in size.
 
