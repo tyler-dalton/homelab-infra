@@ -28,3 +28,13 @@ services:
     volumes:
       - uptime-kuma-data:/app/data
 
+      
+### Current apps being monitored on Uptime:
+
+- Portainer
+- Raspberry Pi
+- Raspberry Pi SSH
+- Uptime Kuma (self-monitor)
+
+As more applications are added, this list will grow in size.
+
