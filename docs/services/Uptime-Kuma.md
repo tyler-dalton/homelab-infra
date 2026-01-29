@@ -36,6 +36,8 @@ services:
 - Raspberry Pi SSH
 - Uptime Kuma (self-monitor)
 - Tailscale (gateway)
+- Pihole UI
+- Pihole DNS Server
 
 As more applications are added, this list will grow in size.
 
