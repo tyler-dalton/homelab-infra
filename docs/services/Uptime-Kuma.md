@@ -38,6 +38,7 @@ services:
 - Tailscale (gateway)
 - Pihole UI
 - Pihole DNS Server
+- Heimdall (dashboard)
 
 As more applications are added, this list will grow in size.
 
