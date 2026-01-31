@@ -39,6 +39,8 @@ services:
 - Pihole UI
 - Pihole DNS Server
 - Heimdall (dashboard)
+- Grafana
+- Prometheus
 
 As more applications are added, this list will grow in size.
 
