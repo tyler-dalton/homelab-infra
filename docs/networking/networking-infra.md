@@ -41,3 +41,10 @@ No services are directly exposed to the WAN.
 - **No WAN port forwards**
 - **Remote access:** Tailscale only
 
+## Current Project
+
+- Installing Arch Linux as a daily driver OS on a new machine
+- Will use Arch to manage my servers from home, will SSH in when on-the-go
+- Installing Proxmox on another new machine
+- Host all servers/VM's on this machine
+
