@@ -1,0 +1,61 @@
+# Homelab (Proxmox Buildout)
+
+This repository tracks my homelab setup as I migrate services off my Raspberry Pi and into **Proxmox**. The goal is to centralize infrastructure, improve reliability, and make deployments repeatable.
+
+---
+
+## Current Status (Where I’m At)
+
+### Existing Homelab Node
+- Device: Raspberry Pi 4B
+- Core services currently running:
+  - Pi-hole + Unbound (DNS)
+  - WireGuard (installed on OS)
+  - Portainer
+  - Uptime Kuma (Discord alerts + service monitors)
+  - Prometheus
+  - Grafana
+
+### Migration In Progress
+I am actively migrating the following services **off the Pi** and into Proxmox:
+- Grafana
+- Prometheus
+- Portainer
+
+---
+
+## Primary Goals for Proxmox
+
+- Consolidate services into VMs
+- Use snapshots and backups properly
+- Create clean network segmentation (eventually VLANs)
+- Make deployments reproducible with documented configs
+
+---
+
+## Network + Access Notes
+
+### DNS
+- Pi-hole + Unbound currently handles DNS on the Pi.
+- Proxmox nodes and containers will be pointed to Pi-hole for DNS until DNS is migrated.
+
+### Remote Access
+Primary GUI access method from Windows:
+- PuTTY SSH tunnel + TigerVNC
+
+### VPN
+Tailscale currently runs on SentinelPi.
+- Uptime Kuma monitors a Tailscale handshake health endpoint.
+
+---
+
+## Monitoring (Uptime Kuma)
+
+Uptime Kuma currently monitors:
+- Router
+- Internet connectivity
+- Pi-hole DNS
+- Pi-hole admin page
+- SSH
+- Portainer
+- Tailscale handshake endpoint 
