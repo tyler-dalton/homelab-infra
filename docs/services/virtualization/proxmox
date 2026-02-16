@@ -1,6 +1,7 @@
 # Homelab (Proxmox Buildout)
 
-This repository tracks my homelab setup as I migrate services off my Raspberry Pi and into **Proxmox**. The goal is to centralize infrastructure, improve reliability, and make deployments repeatable.
+This repository tracks my homelab setup as I migrate services off my Raspberry Pi and into **Proxmox**. The goal 
+is to centralize infrastructure, improve reliability, and make deployments repeatable.
 
 ---
 
@@ -21,6 +22,7 @@ I am actively migrating the following services **off the Pi** and into Proxmox:
 - Grafana
 - Prometheus
 - Portainer
+- I will also be including Kubernetes into my hypervisor to get work with production systems
 
 ---
 
@@ -59,3 +61,11 @@ Uptime Kuma currently monitors:
 - SSH
 - Portainer
 - Tailscale handshake endpoint 
+
+---
+
+## What I've done
+
+- Set to no enterprise mode
+- loaded us keyboard
+- set up non root user (best practice to not perform all commands in root shell)
