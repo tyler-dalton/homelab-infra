@@ -29,6 +29,7 @@ mobile interface monitoring.
 - No inbound ports
 - Full LAN remote access
 - No changes to ISP router
+- Set up subnet routing to access any client on the home IP subnet
 
 ## Summary:
 
