@@ -63,3 +63,8 @@ If I need to nuke the ThinkPad and start over:
 ```bash
 # Basic pacstrap
 pacstrap /mnt base linux linux-firmware neovim intel-ucode networkmanager
+
+---
+
+### Why the ThinkPad is the perfect "Sandbox"
+ThinkPads have some of the best Linux kernel support in the world. If you can't get it working on a ThinkPad, it's likely a configuration error rather than a hardware limitation.
