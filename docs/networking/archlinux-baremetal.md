@@ -23,9 +23,9 @@ The system uses **UEFI/GPT** for modern compatibility.
 
 | Partition | Mount Point | Type | Size | Notes |
 
-| `/dev/sda1` | `/boot` | FAT32 | '512 M' | Larger for multiple kernels |  
-| `/dev/sda2` | `[SWAP]` | Swap | '8 GB' | For Hibernation/RAM overflow |  
-| `/dev/sda3` | `/` | Linux Filesystem | 'Remainder' | All storage for root directory |  
+| `/dev/sda1` | `/boot` | FAT32 | `512 M` | Larger for multiple kernels |  
+| `/dev/sda2` | `[SWAP]` | Swap | `8 GB` | For Hibernation/RAM overflow |  
+| `/dev/sda3` | `/` | Linux Filesystem | `Remainder` | All storage for root directory |  
 
 ---
 
