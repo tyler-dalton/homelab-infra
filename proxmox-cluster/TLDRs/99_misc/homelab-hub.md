@@ -1,4 +1,4 @@
-# Homelab Hub Overview
+# Homelab Hub -- Service Overview
 
 ## What is Homelab Hub?
 

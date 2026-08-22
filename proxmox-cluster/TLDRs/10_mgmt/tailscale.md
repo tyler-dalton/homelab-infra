@@ -1,4 +1,4 @@
-# Tailscale Overview
+# Tailscale -- Service Overview
 
 ## Purpose
 Tailscale is deployed as a subnet router inside the homelab to provide secure remote access to internal VLAN networks.

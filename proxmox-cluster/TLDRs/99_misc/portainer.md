@@ -1,4 +1,4 @@
-# Portainer Overview
+# Portainer -- Service Overview
 
 ## What this service is
 Portainer is a web-based management interface for Docker. It provides a GUI for handling containers, images, volumes, networks, and stacks without relying entirely on the command line.

@@ -1,4 +1,4 @@
-# Docker LXC Overview
+# Docker -- Service Overview
 
 ## What this service is
 Docker is a container runtime platform used to package and run applications in isolated containers. In this homelab build, Docker is deployed inside a Proxmox LXC as well as a VM. Both have their use cases.
