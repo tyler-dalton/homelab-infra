@@ -1,0 +1,191 @@
+# Proxmox Setup Guide
+
+## Purpose
+
+This document walks through the Proxmox host setup used to support an OPNsense VM with separate WAN and LAN connectivity, plus VLAN-aware downstream networking. Core networking including firewall and router configuration is essential when building a homelab. This will be our MVP, once we know that this is up and running we can start to expand our sights further to other services, but first we must get the precursors out of the way.
+
+## Target State
+
+- Hostname: `hyprboxx.home.lan`
+- Management NIC: `nic0`
+- Secondary NIC: `nic1`
+- Initial Proxmox management IP: `192.168.1.x/24`
+- Initial gateway: `192.168.1.1`
+- Future management VLAN subnet: `192.168.10.0/24`
+- Future Proxmox management IP on VLAN 10: `192.168.10.x/24`
+
+---
+
+## 1. Install Proxmox
+
+1. Install Proxmox VE on the host.
+2. During installation, configure:
+   - Hostname: `hyprboxx.home.lan`
+   - Management interface: `nic0`
+   - IP address: `192.168.1.x`
+   - Gateway: `192.168.1.1`
+   - DNS: `8.8.8.8`
+3. Reboot after installation completes.
+
+---
+
+## 2. Bring the Host Online for Initial Access
+
+1. Connect the host to the temporary network using:
+   - `nic0` into the dumb switch for initial management
+   - Connect nic0, your management pc, and the wifi all into the dumb switch
+2. From the management computer, browse to:
+
+   `https://192.168.1.x:8006`
+
+3. Confirm you can access the Proxmox web UI.
+
+---
+
+## 3. Build the Core Proxmox Network Layout
+
+### Create the WAN-side bridge
+
+1. In the Proxmox node, go to **System > Network**.
+2. Confirm `vmbr0` is attached to `nic0`.
+3. Make `vmbr0` **VLAN aware**.
+
+### Create the secondary bridge
+
+1. Create a Linux bridge named `vmbr1`.
+2. Attach `vmbr1` to `nic1`.
+3. Leave `vmbr1` without an IP address.
+4. Apply the network configuration.
+
+### Desired role assignment
+
+- `vmbr0` = LAN trunk toward the managed switch
+- `vmbr1` = WAN/uplink side for OPNsense
+
+---
+
+## 4. Prepare for Management VLAN Migration
+
+After the switch and OPNsense are working, Proxmox management moves to VLAN 10.
+
+### Create the VLAN interface
+
+1. In **System > Network**, create a Linux VLAN interface:
+   - Name: `vmbr0.10`
+   - VLAN ID: `10`
+   - IPv4/CIDR: `192.168.10.x/24`
+2. Do **not** assign a second default gateway if one already exists.
+3. Apply the configuration.
+
+### Final routing intent
+
+- `vmbr0` eventually carries the trunk only
+- `vmbr0.10` becomes the Proxmox management interface
+- Default gateway should ultimately point to OPNsense on `192.168.10.x`
+
+---
+
+## 5. Confirm the OPNsense VM NIC Mapping
+
+After provisioning OPNsense, confirm the Proxmox hardware tab shows:
+
+- `net0` on `vmbr0`
+- `net1` on `vmbr1`
+
+This matters because:
+
+- `net0` is used as the LAN-side trunk inside OPNsense
+- `net1` is used as the WAN-side uplink inside OPNsense
+
+---
+
+## 6. Required VLAN Tag for the OPNsense LAN NIC
+
+A key fix was tagging the OPNsense LAN-side virtual NIC with VLAN 10 in Proxmox.
+
+### Command used
+
+```bash
+qm set 1101 --net0 'virtio=02:BC:9E:75:E8:F9,bridge=vmbr0,tag=10'
+```
+
+This allowed the OPNsense LAN interface to properly participate in the management VLAN.
+
+---
+
+## 7. Persistent Hookscript for VLAN Behavior
+
+To make the LAN-side tagging behavior survive reboots, a hookscript was created.
+
+### Script location
+
+`/var/lib/vz/snippets/opnsense-vlan.sh`
+
+### Example script
+
+```bash
+#!/usr/bin/bash
+VMID="$1"
+PHASE="$2"
+
+if [ "$VMID" == "1101" ] && [ "$PHASE" == "post-start" ]; then
+    sleep 2
+    brctl addif vmbr0 tap1101i0 2>/dev/null
+    bridge vlan del dev tap1101i0 vid 1 2>/dev/null
+    bridge vlan add dev tap1101i0 vid 10 pvid untagged 2>/dev/null
+fi
+
+exit 0
+```
+
+### Apply the hookscript
+
+```bash
+chmod +x /var/lib/vz/snippets/opnsense-vlan.sh
+qm set 1101 --hookscript local:snippets/opnsense-vlan.sh
+```
+
+### Test it
+
+```bash
+qm stop 1101 && sleep 5 && qm start 1101
+ping -c 4 -I vmbr0.10 192.168.10.x
+```
+
+If pings succeed after a reboot, the persistence mechanism is working.
+
+---
+
+## 8. Final Proxmox Network Intent
+
+### Logical design
+
+- `nic0` -> managed switch trunk
+- `vmbr0` -> VLAN-aware trunk bridge
+- `vmbr0.10` -> Proxmox management interface on VLAN 10
+- `nic1` -> WAN/uplink side
+- `vmbr1` -> OPNsense WAN bridge
+
+### Operational note
+
+The Proxmox host was initially brought up on `192.168.1.x` for simplicity, then migrated into the management VLAN once OPNsense and the switch were functioning correctly.
+
+---
+
+## 9. Validation Checklist
+
+- [ ] Proxmox web UI reachable
+- [ ] `vmbr0` is VLAN aware
+- [ ] `vmbr1` exists and is bound to `nic1`
+- [ ] `net0` for OPNsense is on `vmbr0`
+- [ ] `net1` for OPNsense is on `vmbr1`
+- [ ] `vmbr0.10` has `192.168.10.10/24`
+- [ ] Default gateway points to `192.168.10.1` once migration is complete
+- [ ] Hookscript survives reboot
+- [ ] Proxmox can ping `192.168.10.1` from `vmbr0.10`
+
+---
+
+## 10. Closing Note
+
+This setup has become second nature with the amount of refactoring that has happened in the past couple of months. I beleive I am now in a state close enough to be able to securly spin up the services I am planning to. Without being able to nail down the rudimentary factors of the homelab, we risk a fragile infrastructure down the road. After about 15 refactoring versions I think we have reached the stage to continue down the path of services. As small as this may seem, it is 100% a large breakthrough in turning this from "sandbox" to "security operations center"

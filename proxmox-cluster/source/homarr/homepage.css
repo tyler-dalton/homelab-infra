@@ -1,0 +1,433 @@
+/* In order for mantine and Homarr to honor the CSS changes made, each attribute should be suffixed with '!important' so that it will override the current config provided by Homarr. This config should be as organized as possible and easy to navigate as to what is changing what features to allow for easy changes. */
+/* =============== HEADER ================ */
+/* === RIGHT-SIDE === */
+/* Make entire header transparent */
+header.mantine-AppShell-header {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  /* Glass bubbles for header buttons */
+  header .mantine-ActionIcon-root {
+    background: rgba(44, 62, 80, 0.78) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border-radius: 999px !important;
+    padding: 10px !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    box-shadow:
+      0 3px 15px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    transition: all 0.2s ease !important;
+    color: #E5E7EB !important;
+  }
+  /* Hover for header buttons */
+  header .mantine-ActionIcon-root:hover {
+    background: rgba(63, 63, 70, 0.88) !important;
+    border-color: rgba(255, 255, 255, 0.20) !important;
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow:
+      0 5px 12px rgba(0, 0, 0, 0.48),
+      0 0 0 1px rgba(99, 102, 241, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  }
+  /* Spacing for right side buttons */
+  header .mantine-Group-root:last-child {
+    gap: 12px !important;
+  }
+  /* Targeting search bar */
+  header .mantine-TextInput-root,
+  header .mantine-Input-wrapper,
+  header .mantine-TextInput-wrapper,
+  header .mantine-Input-input,
+  header .mantine-TextInput-input {
+    background: rgba(44, 62, 80, 0.80) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    border-radius: 999px !important;
+    color: rgba(255, 255, 255, 0.88) !important;
+    box-shadow:
+      0 3px 7px rgba(0, 0, 0, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  }
+  /* Search bar hover */
+  header .mantine-Input-input:focus,
+  header .mantine-TextInput-input:focus,
+  header .mantine-Input-wrapper:focus-within,
+  header .mantine-TextInput-wrapper:focus-within {
+    border-color: rgba(99, 102, 241, 0.30) !important;
+    box-shadow:
+      0 5px 10px rgba(0, 0, 0, 0.48),
+      0 0 0 1px rgba(99, 102, 241, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  }
+  /* Targeting search icon & placeholder text */
+  header .mantine-Input-input,
+  header .mantine-TextInput-input,
+  header .mantine-Input-section {
+    color: rgba(255, 255, 255, 0.76) !important;
+  }
+  /* Small brightening to text and icons (global) */
+  header,
+  header h2,
+  header a,
+  header button,
+  header svg {
+    color: rgba(255, 255, 255, 0.92) !important;
+  }
+  /* === LEFT-SIDE === */
+  /* Left logo/title group into one shared bubble */
+  header.mantine-AppShell-header > div > div:first-child > a {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 10px 18px !important;
+    background: rgba(44, 62, 80, 0.80) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    border-radius: 999px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    box-shadow:
+      0 3px 3px rgba(0, 0, 0, 0.48),
+      0 0 0 1px rgba(99, 102, 241, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  }
+  /* Hover state for logo/title bubble */
+  header.mantine-AppShell-header > div > div:first-child > a:hover {
+    background: rgba(63, 63, 70, 0.88) !important;
+    border-color: rgba(255, 255, 255, 0.20) !important;
+    transform: translateY(-1px) !important;
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.48),
+      0 0 0 1px rgba(99, 102, 241, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  }
+  /* Tighten up the internal logo/title layout */
+  header.mantine-AppShell-header > div > div:first-child > a > div {
+    gap: 12px !important;
+    flex-wrap: nowrap !important;
+  }
+  /* Logo sizing inside the bubble */
+  header .logo {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 8px !important;
+    object-fit: cover !important;
+  }
+  /* Title styling inside the bubble */
+  header h2 {
+    margin: 0 !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+    color: rgba(255, 255, 255, 0.94) !important;
+  }
+  /* Keep left section flexible so search stays centered */
+  header.mantine-AppShell-header > div > div:first-child {
+    flex: 1 1 0% !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  /* =============== CLOCK ================ */
+  /* clear outer clock widget shell */
+  .grid-stack-item-content:has(.clock-text-stack),
+  .grid-stack-item-content:has(.clock-text-stack) .mantine-Card-root,
+  .grid-stack-item-content:has(.clock-text-stack) .mantine-Paper-root,
+  .grid-stack-item-content:has(.clock-text-stack) [class*="itemCard"] {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  /* Clock box */
+  .clock-text-stack {
+    position: relative !important;
+    background: rgba(44, 62, 80, 0.88) !important;
+    border: none !important;
+    border-radius: inherit !important;
+    padding: 14px 18px !important;
+    gap: 4px !important;
+    height: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+  /* subtle glass sheen */
+  .clock-text-stack::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    border-radius: inherit !important;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.04) 22%,
+        rgba(255, 255, 255, 0.00) 50%
+      ) !important;
+    pointer-events: none !important;
+  }
+  /* Clock time */
+  .clock-time-text {
+    font-size: clamp(1.8rem, 3vw, 3.2rem) !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.05em !important;
+    color: rgba(255, 255, 255, 0.96) !important;
+    text-shadow: 0 3px 14px rgba(0, 0, 0, 0.24) !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+  /* Clock date */
+  .clock-date-text {
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+    line-height: 1.15 !important;
+    letter-spacing: 0.01em !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+  /* =============== APPS & APPS CATEGORY ================ */
+  /* Apps category */
+  .grid-stack-item[data-id="nd6vgcnx6j7u6xk847cg88ua"] .apps-block {
+    background: rgba(44, 62, 80, 0.88) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(160, 170, 180, 0.5) !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    position: relative !important;
+    padding-top: 0.1rem !important;
+  }
+  /* App cards */
+  .grid-stack[data-section-id="nd6vgcnx6j7u6xk847cg88ua"] .app-wrapper {
+    background: rgba(120, 160, 200, 0.18) !important; 
+    backdrop-filter: blur(18px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(145%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 24px !important;
+    box-shadow:
+      0 12px 28px rgba(0, 0, 0, 0.26),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.03) !important;
+    overflow: hidden !important;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.2s ease !important;
+  }
+  /* subtle sheen */
+  .grid-stack[data-section-id="nd6vgcnx6j7u6xk847cg88ua"] .app-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255,255,255,0.10) 0%,
+      rgba(255,255,255,0.035) 22%,
+      rgba(255,255,255,0.00) 50%
+    );
+    pointer-events: none;
+  }
+  /* hover */
+  .grid-stack[data-section-id="nd6vgcnx6j7u6xk847cg88ua"] .app-wrapper:hover {
+    background: rgba(63, 63, 70, 0.88) !important;
+    border-color: rgba(255, 255, 255, 0.20) !important;
+    box-shadow:
+      0 16px 34px rgba(0, 0, 0, 0.30),
+      0 0 0 1px rgba(99, 102, 241, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+    transform: translateY(-2px) !important;
+  }
+  /* =============== HOMELAB BOOKMARKS ================ */
+  /* Bookmark box */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) > .mantine-Stack-root {
+    background: rgba(44, 62, 80, 0.88) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(160, 170, 180, 0.5) !important;
+    box-shadow: none !important;
+    position: relative !important;
+    padding: 0.45rem !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* section title */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .mantine-Title-root {
+    color: rgba(255, 255, 255, 0.92) !important;
+    margin-bottom: 0.3rem !important;
+    font-size: 1.05rem !important;
+    line-height: 1.1 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    flex: 0 0 auto !important;
+  }
+  /* scrolling area that contains bookmark rows */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .mantine-Flex-root {
+    gap: 0.38rem !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+    padding-right: 0.15rem !important;
+  }
+  /* compact outer row */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .mantine-Flex-root > div {
+    margin: 0 !important;
+    min-height: 0 !important;
+  }
+  /* Bookmark cards */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__card {
+    position: relative !important;
+    background: rgba(120, 160, 200, 0.18) !important;
+    backdrop-filter: blur(18px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(145%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    padding: 0.12rem 0.38rem !important;
+    min-height: 32px !important;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.2s ease !important;
+  }
+  /* kill any inner grey fill */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .mantine-UnstyledButton-root,
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__card .mantine-Group-root,
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__card .mantine-Stack-root,
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__card .mantine-Text-root {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  /* subtle sheen on each bookmark pill */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__card::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    border-radius: inherit !important;
+    background: linear-gradient(
+      180deg,
+      rgba(255,255,255,0.10) 0%,
+      rgba(255,255,255,0.035) 22%,
+      rgba(255,255,255,0.00) 50%
+    ) !important;
+    pointer-events: none !important;
+  }
+  /* bookmark text */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .mantine-Text-root {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    color: rgba(255, 255, 255, 0.90) !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  /* hover */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__card:hover {
+    background: rgba(63, 63, 70, 0.88) !important;
+    border-color: rgba(255, 255, 255, 0.20) !important;
+    box-shadow:
+      0 16px 34px rgba(0, 0, 0, 0.30),
+      0 0 0 1px rgba(99, 102, 241, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+    transform: translateY(-2px) !important;
+  }
+  /* icon polish */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__bookmarkIcon {
+    width: 14px !important;
+    height: 14px !important;
+    flex: 0 0 14px !important;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.20)) !important;
+  }
+  /* lighter big bookmark pill */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__card {
+    background: rgba(120, 160, 200, 0.18) !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+  }
+  /* kill the little dark pill around the bookmark name */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__card .mantine-Group-root,
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__card .mantine-Stack-root,
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .bookmark-module__rTbIrW__card .mantine-Text-root {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  /* bookmark names */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .mantine-Text-root {
+    font-size: 0.70rem !important;
+    font-weight: 600 !important;
+    line-height: 1.05 !important;
+    color: rgba(255, 255, 255, 0.92) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  /* a bit more space between each large bookmark pill */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .mantine-Flex-root {
+    gap: 0.55rem !important;
+  }
+  /* optional nicer scrollbar */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) .mantine-Flex-root {
+    scrollbar-width: none;
+  }
+  /* Kill double layer to acheive transparency */
+  .grid-stack-item-content:has(.bookmark-module__rTbIrW__card) {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  /* =============== OPNSENSE ================ */
+  /* =============== AD-BLOCKER ================ */
+  .grid-stack-item-content:has(.summary-card) .summary-card {
+    background: rgba(120, 160, 200, 0.18) !important;
+  }
+  
+  .grid-stack-item-content:has(.summary-card) .summary-card:nth-child(1) {
+    box-shadow:
+      inset 3px 0 0 rgba(220, 90, 90, 0.45),
+      0 12px 28px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  }
+  
+  .grid-stack-item-content:has(.summary-card) .summary-card:nth-child(2) {
+    box-shadow:
+      inset 3px 0 0 rgba(220, 170, 60, 0.45),
+      0 12px 28px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  }
+  
+  .grid-stack-item-content:has(.summary-card) .summary-card:nth-child(3) {
+    box-shadow:
+      inset 3px 0 0 rgba(90, 170, 200, 0.45),
+      0 12px 28px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  }
+  
+  .grid-stack-item-content:has(.summary-card) .summary-card:nth-child(4) {
+    box-shadow:
+      inset 3px 0 0 rgba(80, 180, 120, 0.45),
+      0 12px 28px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  }
