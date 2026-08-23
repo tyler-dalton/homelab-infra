@@ -13,7 +13,7 @@ This document captures the managed switch configuration that supports:
 
 | VLAN | Name  | Subnet            | Purpose |
 |---|---|---|---|
-| 03 | KUBE | 192.168.3.0/24 | Kubernetes Cluster |
+| 04 | KUBE | 192.168.3.0/24 | Kubernetes Cluster |
 | 10 | MGMT  | 192.168.10.0/24 | Management |
 | 20 | MON   | 192.168.20.0/24 | Monitoring |
 | 30 | TRUST | 192.168.30.0/24 | Trusted clients/services |
@@ -34,6 +34,110 @@ This document captures the managed switch configuration that supports:
 - Gateway: `192.168.10.1`
 
 This prepares the switch to live on the management VLAN once OPNsense is active.
+
+---
+
+## 2. Setting up VLANS
+Go to:
+```
+Switching -> VLAN -> Advanced -> VLAN Configuration
+```
+
+Set the VLANs, respectivly.
+
+---
+
+## 3. Setup Kubernetes VLAN
+Go to:
+```
+Switching -> VLAN -> Advanced -> VLAN Membership
+```
+
+Set these ports tagged:
+- 1
+- 3
+- 4
+
+Set these ports untagged:
+- 17
+- 18
+- 19
+- 20
+
+---
+
+## 4. VLAN 10 - Management
+From `VLAN Membership`, select VLAN 10.
+
+Set these ports tagged:
+- 1
+- 3
+- 4
+
+Set these ports untagged:
+- 5
+- 6
+- 16
+- 23
+
+---
+
+## 5. VLAN 20 - Monitoring
+Set these ports tagged:
+- 1
+- 3
+- 4
+
+---
+
+## 6. VLAN 30 - Services
+Set these ports tagged:
+- 1
+- 3
+- 4
+- 6
+
+---
+
+## 7. VLAN 40 - IoT
+Set these ports tagged:
+- 1
+- 3
+- 4
+- 6
+
+---
+
+## 8. VLAN 90 - DMZ
+Set these ports tagged:
+- 1
+- 3
+- 4
+- 6
+
+---
+
+## 9. Configure PVIDs
+Go to:
+```
+Switching -> VLAN -> Advanced -> Port PVID Configuration
+```
+
+| Port | PVID |
+|------|------|
+| 1 | 10 |
+| 2 | 1 |
+| 3 | 10 |
+| 4 | 10 |
+| 5 | 10 |
+| 6 | 10 |
+| 16 | 10 |
+| 17 | 4 |
+| 18 | 4 |
+| 19 | 4 |
+| 20 | 4 |
+| 23 | 10 |
+| 24 | 1 |
 
 ---
 
