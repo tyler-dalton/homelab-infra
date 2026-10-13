@@ -22,3 +22,16 @@ INSERT vlan33-assign IMAGE
 - `Firewall` -> `Rules` -> `Rules`
 
 ## Netgear Switch Config
+
+- create vlan 33
+ - `Switching` -> `VLAN` -> `Advanced` -> `VLAN Configuration`
+
+net-add-33
+
+ - `Switching` -> `VLAN` -> `Advanced` -> `VLAN Membership`
+
+net-33-ports
+
+ - `Switching` -> `VLAN` -> `Advanced` -> `Port PVID Configuration`
+
+port-pvid
