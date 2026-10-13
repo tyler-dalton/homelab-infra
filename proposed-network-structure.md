@@ -8,7 +8,6 @@ CIDR: `192.168.10.0/24`
 |---|---|
 | 192.168.10.1 | OPNsense gateway |
 | 192.168.10.3 | Netgear 24p switch |
-| 192.168.10.4 | Possible k8s switch |
 | 192.168.10.10 | pve01 (hyprboxx) |
 | 192.168.10.11 | pve02 (gridboxx) |
 | 192.168.10.12 | pve03 (gateboxx |
