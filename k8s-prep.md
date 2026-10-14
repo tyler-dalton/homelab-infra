@@ -45,6 +45,5 @@ sudo systemctl status ssh
 From management console:
 
 ```bash
-ssh-copy-id -i ~/.ssh/id_ed25519.pub dalt@192.168.33.11
 ssh dalt@192.168.33.11
 ```
