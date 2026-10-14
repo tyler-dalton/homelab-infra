@@ -12,9 +12,9 @@ ping -c 4 1.1.1.1
 getent hosts github.com
 ```
 
-sample netplan config file found by `sudo nano /etc/netplan/00
+sample netplan config file found by `sudo nano /etc/netplan/00-installer-config.yaml`
 
-```00.yaml
+```00-installer-config.yaml
 network:
   ethernets:
     eno1:
