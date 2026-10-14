@@ -31,7 +31,7 @@ network:
         macaddress: SYSTEM_MAC
       set-name: eno1
   version: 2
-```alright ive got ubuntu node one plugged up. what needs to 
+```
 
 install & enable SSH
 
