@@ -143,15 +143,15 @@ Avoid configuring these manually unless necessary to establish the initial autom
 
 ## Bootstrap Completion Checklist
 
-- [X] OS installed and hostname assigned
-- [X] Static IP configured
-- [X] Default gateway configured
-- [X] AdGuard DNS configured
-- [X] Gateway, internet, and DNS tested
-- [X] OpenSSH installed and enabled
-- [X] SSH public key installed
-- [X] Sudo access verified
-- [X] Remote SSH connectivity verified
-- [X] Node accessible to automation controller
+- [x] OS installed and hostname assigned
+- [x] Static IP configured
+- [x] Default gateway configured
+- [x] AdGuard DNS configured
+- [x] Gateway, internet, and DNS tested
+- [x] OpenSSH installed and enabled
+- [x] SSH public key installed
+- [x] Sudo access verified
+- [x] Remote SSH connectivity verified
+- [x] Node accessible to automation controller
 
 **Bootstrap boundary:** Once the checklist passes, stop making manual changes. All subsequent configuration should be reproducible from version-controlled automation.
