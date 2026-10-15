@@ -26,7 +26,7 @@ Before editing the configuration of the firewall, ensure that there is backups o
 System -> Configuration -> Backups -> Download Configuration
 ```
 
-![opnsense config backup](opn-bak)
+![opnsense config backup](./media/opn-bak.png)
 
 **Take a snapshot of the OPNsense VM**:
 
@@ -34,7 +34,7 @@ System -> Configuration -> Backups -> Download Configuration
 OPNsense VM -> Backups -> Backup now -> Backup
 ```
 
-![snapshot opnsense vm](pve-opn-bak)
+![snapshot opnsense vm](./media/pve-opn-bak.png)
 
 ## OPNsense Configuration
 
@@ -47,6 +47,34 @@ OPNsense VM -> Backups -> Backup now -> Backup
 **Validation:** 27 packets transmitted, 27 received, 0% packet loss.
 
 This confirms the gateway is operational locally, but does not validate physical node connectivity.
+
+**Create VLAN 33**:
+
+![create vlan 33](./media/create-vlan33.png)
+
+**Assign VLAN 33**:
+
+![assign vlan 33](./media/vlan33-assign.png)
+
+**Enable VLAN 33 Interface**:
+
+![enable vlan 33 interface](./media/33-enable-int.png)
+
+**VLAN 33 Configuration**:
+
+![configure vlan 33](./media/vlan33-config.png)
+
+**VLAN 33 Temporary Firewall Rule**:
+
+![temporary vlan 33 firewall rule](./media/33-firewall.png)
+
+**Test VLAN 33 with ping**:
+
+![vlan 33 test](./media/33-test.png)
+
+**Expected output**:
+
+![good ping test](./media/33-good-ping.png)
 
 ## Netgear GS728TPP Configuration
 
@@ -67,7 +95,17 @@ Reserved switch ports 17–21 for Kubernetes nodes.
 - Tag VLAN 33 on the Proxmox/OPNsense LAN uplink.
 - Preserve existing VLAN 10 management connectivity.
 
-*Switch configuration and end-to-end connectivity have not yet been confirmed.*
+**Creating VLAN 33**:
+
+![create vlan 33](./media/net-add-33.png)
+
+**VLAN 33 Port Settings**:
+
+![switch vlan 33 port settings](./media/net-33-ports.png)
+
+**VLAN 33 PVID Configuration**:
+
+![VLAN 33 PVID CONFIG](./media/33-pvid.png)
 
 ## Remaining Tasks
 
