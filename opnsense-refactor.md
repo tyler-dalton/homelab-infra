@@ -53,7 +53,7 @@ This confirms the gateway is operational locally, but does not validate physical
 Reserved switch ports 17–21 for Kubernetes nodes.
 
 | Port | Node | Planned IP | VLAN | PVID |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | 17 | k8sN1 | `192.168.33.3` | 33 | 33 |
 | 18 | k8sN2 | `192.168.33.4` | 33 | 33 |
 | 19 | k8sN3 | `192.168.33.5` | 33 | 33 |
@@ -61,6 +61,7 @@ Reserved switch ports 17–21 for Kubernetes nodes.
 | 21 | k8sN5 | `192.168.33.7` | 33 | 33 |
 
 **Planned switch settings:**
+
 - Create VLAN 33 (`KUBE`).
 - Configure node ports as untagged members with PVID 33.
 - Tag VLAN 33 on the Proxmox/OPNsense LAN uplink.
