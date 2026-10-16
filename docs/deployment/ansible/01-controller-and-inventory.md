@@ -168,17 +168,36 @@ The initial production inventory contains **five Kubernetes nodes connected to V
 all:
   children:
     kubernetes:
-      hosts:
-        talos:
-          ansible_host: 192.168.33.11
-        helios:
-          ansible_host: 192.168.33.12
-        orion:
-          ansible_host: 192.168.33.13
-        argus:
-          ansible_host: 192.168.33.14
-        daedalus:
-          ansible_host: 192.168.33.15
+      children:
+        rke2_servers:
+          hosts:
+            talos:
+              ansible_host: 192.168.33.11
+            helios:
+              ansible_host: 192.168.33.12
+            orion:
+              ansible_host: 192.168.33.13
+        rke2_agents:
+          hosts:
+            argus:
+              ansible_host: 192.168.33.14
+            daedalus:
+              ansible_host: 192.168.33.15
+        rke2_etcd:
+          hosts:
+            talos:
+            helios:
+            orion:
+        rke2_control_plane:
+          hosts:
+            helios:
+            orion:
+        rke2_workers:
+          hosts:
+            helios:
+            orion:
+            argus:
+            daedalus:
       vars:
         ansible_user: dalt
 ```
