@@ -33,3 +33,39 @@
     fail_msg: "Swap remains active on {{ inventory_hostname }}"
     success_msg: "Swap is disabled on {{ inventory_hostname }}"
   when: not ansible_check_mode
+
+# Kernel modules
+
+- name: Persist Kubernetes kernel modules
+  ansible.builtin.copy:
+    src: kubernetes.conf
+    dest: /etc/modules-load.d/kubernetes.conf
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Load required Kubernetes kernel modules
+  community.general.modprobe:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - overlay
+    - br_netfilter
+
+# Kernel networking
+
+- name: Configure Kubernetes networking parameters
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/99-kubernetes.conf
+    state: present
+    sysctl_set: true
+    reload: true
+  loop:
+    - key: net.ipv4.ip_forward
+      value: "1"
+    - key: net.bridge.bridge-nf-call-iptables
+      value: "1"
+    - key: net.bridge.bridge-nf-call-ip6tables
+      value: "1"

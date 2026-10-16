@@ -1,0 +1,9 @@
+---
+- name: Prepare Kubernetes hosts
+  hosts: kubernetes
+  become: true
+  gather_facts: true
+  serial: 1
+
+  roles:
+    - kubernetes_prereqs
