@@ -57,7 +57,7 @@ A read-only inspection was performed before modifying the operating systems. Thi
 The following command inspected active swap on all five nodes:
 
 ```bash
-ansible kubernetes -b -m ansible.builtin.command -a "swapon --show"
+ansible k8s -b -m ansible.builtin.command -a "swapon --show"
 ```
 
 All hosts initially reported the same active swap configuration:
@@ -84,7 +84,7 @@ This establishes a consistent swap-disabled configuration for the planned RKE2 d
 **Time synchronization was inspected using**:
 
 ```bash
-ansible kubernetes -m ansible.builtin.command -a "timedatectl status"
+ansible k8s -m ansible.builtin.command -a "timedatectl status"
 ```
 
 **All five nodes reported**:
@@ -105,7 +105,7 @@ Consistent system time is particularly important for distributed systems, includ
 **The initial kernel module check was performed with**:
 
 ```bash
-ansible kubernetes -b -m ansible.builtin.shell -a "lsmod | grep -E '^(overlay|br_netfilter) ' || true"
+ansible k8s -b -m ansible.builtin.shell -a "lsmod | grep -E '^(overlay|br_netfilter) ' || true"
 ```
 
 No matching loaded modules were reported on any host.
@@ -124,7 +124,7 @@ No matching loaded modules were reported on any host.
 **The initial networking assessment checked**:
 
 ```bash
-ansible kubernetes -b -m ansible.builtin.command -a "sysctl net.ipv4.ip_forward"
+ansible k8s -b -m ansible.builtin.command -a "sysctl net.ipv4.ip_forward"
 ```
 
 **The initial value was**:
@@ -160,9 +160,9 @@ The host audit also identified that Ubuntu had provisioned a 100 GiB root logica
 **The assessment used**:
 
 ```bash
-ansible kubernetes -b -m ansible.builtin.command -a "lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS"
+ansible k8s -b -m ansible.builtin.command -a "lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS"
 
-ansible kubernetes -b -m ansible.builtin.command -a "vgs"
+ansible k8s -b -m ansible.builtin.command -a "vgs"
 ```
 
 **Decision**: Defer storage allocation to a separate infrastructure design phase.
@@ -212,7 +212,7 @@ This separation enables the role to be reused without duplicating its task defin
 ```yaml
 ---
 - name: Prepare Kubernetes hosts
-  hosts: kubernetes
+  hosts: k8s
   become: true
   gather_facts: true
   serial: 1
@@ -225,7 +225,7 @@ The playbook uses the following settings:
 
 | Setting              | Purpose                                           |
 | -------------------- | ------------------------------------------------- |
-| `hosts: kubernetes`  | Target all five managed Kubernetes nodes          |
+| `hosts: k8s`         | Target all five managed Kubernetes nodes          |
 | `become: true`       | Execute privileged configuration tasks using sudo |
 | `gather_facts: true` | Collect host information before applying the role |
 | `serial: 1`          | Process one managed host at a time                |
@@ -522,7 +522,7 @@ After successful canary validation, **the playbook was deployed to the remaining
 
 ```bash
 ansible-playbook playbooks/kubernetes-prereqs.yml \
-  --limit 'kubernetes:!talos' \
+  --limit 'k8s:!talos' \
   --diff
 ```
 
@@ -561,7 +561,7 @@ Configuration-file changes alone do not guarantee that the Linux kernel is opera
 ### 6.1 Verify Swap
 
 ```bash
-ansible kubernetes -b -m ansible.builtin.command -a "swapon --show"
+ansible k8s -b -m ansible.builtin.command -a "swapon --show"
 ```
 
 **Expected result:** No active swap devices are listed.
@@ -571,7 +571,7 @@ All five nodes returned empty swap output following the deployment.
 ### 6.2 Verify Kernel Modules
 
 ```bash
-ansible kubernetes -b -m ansible.builtin.shell -a "lsmod | grep -E '^(overlay|br_netfilter) '"
+ansible k8s -b -m ansible.builtin.shell -a "lsmod | grep -E '^(overlay|br_netfilter) '"
 ```
 
 **The output from each node included**:
@@ -586,7 +586,7 @@ This confirmed that both kernel modules were loaded.
 ### 6.3 Verify Kernel Networking Parameters
 
 ```bash
-ansible kubernetes -b -m ansible.builtin.command -a "sysctl net.ipv4.ip_forward net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables"
+ansible k8s -b -m ansible.builtin.command -a "sysctl net.ipv4.ip_forward net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables"
 ```
 
 **Every node returned**:
@@ -606,7 +606,7 @@ Ad-hoc `ansible.builtin.command` and `ansible.builtin.shell` operations can repo
 For example:
 
 ```bash
-ansible kubernetes -m ansible.builtin.command -a "swapon --show"
+ansible k8s -m ansible.builtin.command -a "swapon --show"
 ```
 
 may report `CHANGED` despite making no operating-system modifications.
@@ -657,7 +657,7 @@ This confirmed that the canary configuration survived a reboot without requiring
 **The four remaining nodes were rebooted with Ansible**:
 
 ```bash
-ansible 'kubernetes:!talos' -b -m ansible.builtin.reboot -a "reboot_timeout=300" -f 1
+ansible 'k8s:!talos' -b -m ansible.builtin.reboot -a "reboot_timeout=300" -f 1
 ```
 
 The `-f 1` option limited concurrent Ansible operations to one host at a time.
@@ -678,7 +678,7 @@ All four nodes successfully rebooted:
 **After the reboots**:
 
 ```bash
-ansible kubernetes -m ansible.builtin.ping
+ansible k8s -m ansible.builtin.ping
 ```
 
 **All five hosts returned**:

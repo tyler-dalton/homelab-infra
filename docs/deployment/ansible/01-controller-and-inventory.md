@@ -167,7 +167,7 @@ The initial production inventory contains **five Kubernetes nodes connected to V
 ---
 all:
   children:
-    kubernetes:
+    k8s:
       children:
         rke2_servers:
           hosts:
@@ -310,7 +310,7 @@ The `ansible.builtin.ping` module verifies Ansible's ability to connect to a hos
 **Now ping all five hosts at once**:
 
 ```bash
-ansible kubernetes -m ansible.builtin.ping
+ansible k8s -m ansible.builtin.ping
 ```
 
 **Expected result**:
@@ -322,7 +322,7 @@ ansible kubernetes -m ansible.builtin.ping
 After configuring password-less sudo, **privileged execution can be verified with**:
 
 ```bash
-ansible kubernetes -b \
+ansible k8s -b \
   -m ansible.builtin.command \
   -a "id -u"
 ```
@@ -351,13 +351,13 @@ ansible --version
 ansible-inventory --graph
 
 # Verify SSH and Python execution
-ansible kubernetes -m ansible.builtin.ping
+ansible k8s -m ansible.builtin.ping
 
 # Check one host
 ansible talos -m ansible.builtin.ping
 
 # Verify privileged access
-ansible kubernetes -b \
+ansible k8s -b \
   -m ansible.builtin.command \
   -a "id -u"
 
