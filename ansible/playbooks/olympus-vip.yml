@@ -1,0 +1,9 @@
+---
+- name: Configure Olympus floating API VIP
+  hosts: rke2_servers
+  become: true
+  gather_facts: true
+  serial: 1
+
+  roles:
+    - olympus-vip
