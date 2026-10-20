@@ -1,0 +1,8 @@
+---
+- name: Bootstrap Olympus RKE2 server
+  hosts: talos
+  become: true
+  gather_facts: true
+
+  roles:
+    - rke2
