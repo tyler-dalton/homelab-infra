@@ -1,0 +1,24 @@
+---
+- name: Confirm Olympus RKE2 configuration is defined
+  ansible.builtin.assert:
+    that:
+      - rke2_api_endpoint | length > 0
+      - rke2_api_vip | length > 0
+      - rke2_token | length >= 32
+      - rke2_tls_sans | length > 0
+    fail_msg: "Required Olympus RKE2 configuration is incomplete."
+    success_msg: "Olympus RKE2 configuration is present."
+  no_log: true
+
+- name: Resolve Olympus API endpoint
+  ansible.builtin.command:
+    cmd: "getent ahostsv4 {{ rke2_api_endpoint }}"
+  register: rke2_endpoint_resolution
+  changed_when: false
+
+- name: Assert Olympus API endpoint resolves to the VIP
+  ansible.builtin.assert:
+    that:
+      - rke2_api_vip in rke2_endpoint_resolution.stdout
+    fail_msg: "{{ rke2_api_endpoint }} does not resolve to {{ rke2_api_vip }}."
+    success_msg: "Olympus API endpoint resolves to the configured VIP."
