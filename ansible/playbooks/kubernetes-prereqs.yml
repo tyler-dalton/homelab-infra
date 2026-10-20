@@ -1,6 +1,6 @@
 ---
 - name: Prepare Kubernetes hosts
-  hosts: kubernetes
+  hosts: k8s
   become: true
   gather_facts: true
   serial: 1
