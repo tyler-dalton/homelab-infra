@@ -1,0 +1,23 @@
+---
+- name: Install keepalived
+  ansible.builtin.apt:
+    name: "{{ olympus_keepalived_package }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Configure Olympus floating VIP
+  ansible.builtin.template:
+    src: keepalived.conf.j2
+    dest: "{{ olympus_keepalived_config_path }}"
+    owner: root
+    group: root
+    mode: '0600'
+  notify:
+    - Restart keepalived
+
+- name: Enable and start keepalived
+  ansible.builtin.systemd:
+    name: "{{ olympus_keepalived_service }}"
+    enabled: true
+    state: started
