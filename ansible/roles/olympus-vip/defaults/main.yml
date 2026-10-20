@@ -1,0 +1,8 @@
+---
+# Package and service names for Ubuntu
+olympus_keepalived_package: keepalived
+olympus_keepalived_service: keepalived
+olympus_keepalived_config_path: /etc/keepalived/keepalived.conf
+
+# The actual value stays encrypted in group_vars/rke2_servers/vault.yml
+olympus_vrrp_auth_password: "{{ vault_olympus_vrrp_password }}"
