@@ -1,0 +1,19 @@
+---
+# Olympus cluster API endpoint
+olympus_api_hostname: olympus-api.tylerdalton.dev
+olympus_api_vip: 192.168.33.10
+olympus_api_prefix_length: 24
+
+# Network interface shared by talos, helios, and orion
+olympus_vip_interface: eno1
+
+# Keepalived / VRRP settings
+olympus_vrrp_instance_name: OLYMPUS_API
+olympus_vrrp_router_id: 33
+olympus_vrrp_advert_interval: 1
+
+# Higher priority winds ownership of the floating VIP
+olympus_vrrp_priorities:
+  talos: 120
+  helios: 110
+  orion: 100
