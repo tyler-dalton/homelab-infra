@@ -15,6 +15,7 @@
     cmd: "getent ahostsv4 {{ rke2_api_endpoint }}"
   register: rke2_endpoint_resolution
   changed_when: false
+  check_mode: false
 
 - name: Assert Olympus API endpoint resolves to the VIP
   ansible.builtin.assert:
