@@ -23,3 +23,76 @@
       - rke2_api_vip in rke2_endpoint_resolution.stdout
     fail_msg: "{{ rke2_api_endpoint }} does not resolve to {{ rke2_api_vip }}."
     success_msg: "Olympus API endpoint resolves to the configured VIP."
+
+- name: Require a pinned RKE2 release
+  ansible.builtin.assert:
+    that:
+      - rke2_version | length > 0
+      - rke2_version is match('^v[0-9]+\.[0-9]+\.[0-9]+\+rke2r[0-9]+$')
+    fail_msg: "Set rke2_version to a specific RKE2 release tag."
+
+- name: Create RKE2 configuration directory
+  ansible.builtin.file:
+    path: /etc/rancher/rke2
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Deploy RKE2 server configuration
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: /etc/rancher/rke2/config.yaml
+    owner: root
+    group: root
+    mode: "0600"
+  no_log: true
+
+- name: Check whether RKE2 is installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/rke2
+  register: rke2_binary
+
+- name: Download official RKE2 installation script
+  ansible.builtin.get_url:
+    url: https://get.rke2.io
+    dest: /usr/local/src/install-rke2.sh
+    owner: root
+    group: root
+    mode: "0755"
+  when: not rke2_binary.stat.exists
+
+- name: Install pinned RKE2 server release
+  ansible.builtin.command:
+    cmd: /usr/local/src/install-rke2.sh
+  environment:
+    INSTALL_RKE2_TYPE: server
+    INSTALL_RKE2_VERSION: "{{ rke2_version }}"
+  when: not rke2_binary.stat.exists
+
+- name: Enable and start RKE2 server
+  ansible.builtin.systemd_service:
+    name: rke2-server
+    enabled: true
+    state: started
+    daemon_reload: true
+  when: not ansible_check_mode
+
+- name: Wait for Kubernetes API
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: 6443
+    delay: 10
+    timeout: 600
+
+- name: Wait for Talos node registration
+  ansible.builtin.command:
+    cmd: >
+      /var/lib/rancher/rke2/bin/kubectl
+      --kubeconfig /etc/rancher/rke2/rke2.yaml
+      get node talos
+  register: rke2_node_check
+  until: rke2_node_check.rc == 0
+  retries: 30
+  delay: 10
+  changed_when: false
