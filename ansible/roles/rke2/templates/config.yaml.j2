@@ -1,0 +1,10 @@
+---
+token: "{{ rke2_token }}"
+cni: "{{ rke2_cni }}"
+
+tls-san:
+{% for san in rke2_tls_sans %}
+  - "{{ san }}"
+{% endfor %}
+
+write-kubeconfig-mode: "0600"
