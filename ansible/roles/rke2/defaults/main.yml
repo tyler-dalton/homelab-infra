@@ -7,3 +7,7 @@ rke2_tls_sans:
   - 192.168.33.10
 
 rke2_token: "{{ vault_rke2_token }}"
+
+# RKE2 release — populate after verifying compatibility
+rke2_version: ""
+rke2_cni: cilium
