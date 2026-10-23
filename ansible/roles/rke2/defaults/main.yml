@@ -9,5 +9,5 @@ rke2_tls_sans:
 rke2_token: "{{ vault_rke2_token }}"
 
 # RKE2 release — populate after verifying compatibility
-rke2_version: ""
+rke2_version: "v1.37.1+rke2r1"
 rke2_cni: cilium
