@@ -1,0 +1,184 @@
+# Managed by Ansible. Local edits will be replaced.
+
+# =============
+# SHELL / NAVIGATION
+# =============
+
+alias ..='cd ..'
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+alias ..4='cd ../../../..'
+alias ..5='cd ../../../../..'
+
+alias home='cd ~'
+alias c='clear'
+alias hist='history'
+
+alias mkdir='mkdir -pv'
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rm='rm -v'
+
+alias ping4='ping -c 4'
+alias pingg='ping -c 4 8.8.8.8'
+alias pingdns='ping -c 4 google.com'
+
+alias ipa='ip addr'
+alias ipr='ip route'
+
+# =============
+# K8S
+# =============
+
+alias k='kubectl'
+
+# GET
+# -------------
+
+alias kg='kubectl get'
+
+alias kgp='kubectl get pods'
+alias kgd='kubectl get deployments'
+alias kgss='kubectl get statefulsets'
+alias kgds='kubectl get daemonsets'
+
+alias kgsvc='kubectl get services'
+alias kgi='kubectl get ingress'
+
+alias kgsec='kubectl get secrets'
+alias kgcm='kubectl get configmaps'
+
+alias kgpvc='kubectl get pvc'
+alias kgpv='kubectl get pv'
+alias kgcrd='kubectl get crd'
+
+alias kgsa='kubectl get serviceaccount'
+
+alias kgn='kubectl get nodes'
+alias kgns='kubectl get namespaces'
+
+alias kga='kubectl get all'
+
+# WIDE OUTPUT
+alias kgpw='kubectl get pods -o wide'
+alias kgpaw='kubectl get pods -A -o wide'
+alias kgnw='kubectl get nodes -o wide'
+
+# GET - ALL
+# -------------
+
+alias kgpa='kubectl get pods -A'
+alias kgda='kubectl get deployments -A'
+alias kgssa='kubectl get statefulsets -A'
+alias kgdsa='kubectl get daemonsets -A'
+
+alias kgsvca='kubectl get services -A'
+alias kgia='kubectl get ingress -A'
+
+alias kgseca='kubectl get secrets -A'
+alias kgcma='kubectl get configmaps -A'
+
+alias kgpvca='kubectl get pvc -A'
+alias kgpva='kubectl get pv -A'
+alias kgcrda='kubectl get crd -A'
+
+alias kgsaa='kubectl get serviceaccount -A'
+
+alias kgna='kubectl get nodes -A'
+alias kgnsa='kubectl get namespaces -A'
+
+# DESCRIBE
+# -------------
+
+alias kd='kubectl describe'
+
+alias kdp='kubectl describe pod'
+alias kdd='kubectl describe deployment'
+alias kdss='kubectl describe statefulset'
+alias kdds='kubectl describe daemonset'
+
+alias kdsvc='kubectl describe service'
+alias kdi='kubectl describe ingress'
+
+alias kdsec='kubectl describe secret'
+alias kdcm='kubectl describe configmap'
+
+alias kdpvc='kubectl describe pvc'
+alias kdpv='kubectl describe pv'
+alias kdcrd='kubectl describe crd'
+
+alias kdsa='kubectl describe serviceaccount'
+
+alias kdn='kubectl describe node'
+alias kdns='kubectl describe namespace'
+
+# LOGS / EXEC / EVENTS
+# -------------
+
+alias kl='kubectl logs'
+alias klf='kubectl logs -f'
+alias klfa='kubectl logs -f --all-containers'
+alias klp='kubectl logs -p'
+
+alias kevw='kubectl get events --watch'
+alias keva='kubectl get events -A --sort-by=.metadata.creationTimestamp'
+
+alias ke='kubectl exec'
+alias kei='kubectl exec -it'
+
+# APPLY / DELETE / EDIT
+# -------------
+
+alias kdel='kubectl delete'
+
+alias kaf='kubectl apply -f'
+alias kdf='kubectl delete -f'
+
+alias kak='kubectl apply -k'
+alias kdk='kubectl delete -k'
+
+alias kedit='kubectl edit'
+alias kscale='kubectl scale'
+
+# ROLLOUTS
+# -------------
+
+alias kr='kubectl rollout'
+alias krr='kubectl rollout restart'
+alias krs='kubectl rollout status'
+alias kru='kubectl rollout undo'
+alias krh='kubectl rollout history'
+
+# DEBUG / UTILITIES
+# -------------
+
+alias kctx='kubectl config current-context'
+alias kctxs='kubectl config get-contexts'
+alias kusectx='kubectl config use-context'
+
+alias kev='kubectl get events --sort-by=.metadata.creationTimestamp'
+
+alias ksetns='kubectl config set-context --current --namespace'
+alias kprintns='kubectl config view --minify --output "jsonpath={..namespace}"; echo'
+
+alias kpf='kubectl port-forward'
+alias kcp='kubectl cp'
+alias 'k?'='kubectl explain'
+
+alias kapi='kubectl api-resources'
+alias kapiv='kubectl api-versions'
+
+alias ktopn='kubectl top nodes'
+alias ktopp='kubectl top pods'
+
+alias kdiff='kubectl diff -f'
+alias kcani='kubectl auth can-i'
+alias kdebug='kubectl debug'
+alias kwait='kubectl wait'
+
+# KUSTOMIZE
+# -------------
+
+alias kk='kubectl kustomize'
+alias kkh='kubectl kustomize --enable-helm --load-restrictor LoadRestrictionsNone'
+
