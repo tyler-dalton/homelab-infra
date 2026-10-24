@@ -1,0 +1,4 @@
+---
+kubectl_access_user: "{{ ansible_user }}"
+kubectl_access_binary: /var/lib/rancher/rke2/bin/kubectl
+kubectl_access_kubeconfig_source: /etc/rancher/rke2/rke2.yaml
