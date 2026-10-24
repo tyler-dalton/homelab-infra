@@ -12,7 +12,16 @@ olympus-gitops/
 │   └── olympus-root.yaml  # The one manifest applied manually to begin GitOps
 └── apps/
     ├── argocd/resources/project.yaml
+    ├── argocd-access/
+    │   ├── application.yaml
+    │   └── resources/
     ├── cilium-networking/
+    │   ├── application.yaml
+    │   └── resources/
+    ├── gateway/
+    │   ├── application.yaml
+    │   └── resources/
+    ├── internal-pki/
     │   ├── application.yaml
     │   └── resources/
     └── cert-manager/application.yaml

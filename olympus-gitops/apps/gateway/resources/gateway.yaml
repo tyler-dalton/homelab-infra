@@ -1,0 +1,49 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: olympus
+  namespace: gateway-system
+spec:
+  gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: 192.168.33.20
+  listeners:
+    - name: argocd-http
+      protocol: HTTP
+      port: 80
+      hostname: argocd.tylerdalton.dev
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: argocd-https
+      protocol: HTTPS
+      port: 443
+      hostname: argocd.tylerdalton.dev
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: olympus-gateway-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: apps-http
+      protocol: HTTP
+      port: 80
+      hostname: '*.apps.tylerdalton.dev'
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: apps-https
+      protocol: HTTPS
+      port: 443
+      hostname: '*.apps.tylerdalton.dev'
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: olympus-gateway-tls
+      allowedRoutes:
+        namespaces:
+          from: All

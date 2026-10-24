@@ -1,0 +1,11 @@
+# The Gateway terminates client TLS.  argocd-server therefore serves HTTP only
+# behind the ClusterIP Service; it is not exposed directly outside the cluster.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cmd-params-cm
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-options: ServerSideApply=true
+data:
+  server.insecure: "true"
