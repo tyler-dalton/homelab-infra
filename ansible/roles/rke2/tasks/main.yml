@@ -112,6 +112,22 @@
     group: root
     mode: "0700"
 
+- name: Create RKE2 server manifests directory
+  ansible.builtin.file:
+    path: /var/lib/rancher/rke2/server/manifests
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Configure Cilium platform features
+  ansible.builtin.template:
+    src: rke2-cilium-config.yaml.j2
+    dest: /var/lib/rancher/rke2/server/manifests/rke2-cilium-config.yaml
+    owner: root
+    group: root
+    mode: "0600"
+
 - name: Preview RKE2 configuration changes
   ansible.builtin.template:
     src: config.yaml.j2
