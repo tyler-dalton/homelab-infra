@@ -1,0 +1,8 @@
+---
+- name: Configure Kubernetes node shell profiles
+  hosts: k8s
+  become: true
+  gather_facts: false
+
+  roles:
+    - node_shell
