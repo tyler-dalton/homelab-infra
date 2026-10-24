@@ -1,0 +1,8 @@
+---
+- name: Join Olympus RKE2 agent
+  hosts: argus
+  become: true
+  gather_facts: true
+
+  roles:
+    - rke2_agent
