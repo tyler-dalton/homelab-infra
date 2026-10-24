@@ -1,0 +1,79 @@
+name: Ansible kubectl access
+
+on:
+  pull_request:
+    paths:
+      - 'ansible/**'
+      - '.github/workflows/ansible-kubectl.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ansible/**'
+      - '.github/workflows/ansible-kubectl.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: olympus-kubectl-deploy
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Lint and syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned validation tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install 'ansible-core==2.18.10' 'yamllint==1.37.1'
+      - name: YAML lint kubectl playbook and role
+        run: |
+          yamllint -d '{extends: relaxed, rules: {line-length: disable}}' \
+            ansible/playbooks/kubectl-access.yml \
+            ansible/roles/kubectl_access/defaults/main.yml \
+            ansible/roles/kubectl_access/tasks/main.yml
+      - name: Ansible syntax check
+        working-directory: ansible
+        run: ansible-playbook playbooks/kubectl-access.yml --syntax-check
+      - name: Verify target hosts
+        working-directory: ansible
+        run: |
+          ansible-playbook playbooks/kubectl-access.yml --list-hosts | tee /tmp/kubectl-targets
+          grep -q 'talos' /tmp/kubectl-targets
+          grep -q 'helios' /tmp/kubectl-targets
+          grep -q 'orion' /tmp/kubectl-targets
+
+  deploy:
+    name: Apply to Olympus servers
+    needs: validate
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, linux, olympus-ansible]
+    timeout-minutes: 20
+    environment: olympus-production
+    steps:
+      - name: Checkout validated commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify runner prerequisites
+        run: |
+          command -v ansible-playbook
+          command -v ssh
+          ansible-playbook --version
+      - name: Check target connectivity
+        working-directory: ansible
+        run: ansible rke2_servers -m ansible.builtin.ping
+      - name: Dry-run kubectl configuration
+        working-directory: ansible
+        run: ansible-playbook playbooks/kubectl-access.yml --check
+      - name: Deploy kubectl configuration
+        working-directory: ansible
+        run: ansible-playbook playbooks/kubectl-access.yml
