@@ -197,3 +197,12 @@
   delay: 10
   changed_when: false
   when: not ansible_check_mode
+
+- name: Wait for Talos node to become Ready
+  ansible.builtin.command:
+    cmd: >
+      /var/lib/rancher/rke2/bin/kubectl
+      --kubeconfig /etc/rancher/rke2/rke2.yaml
+      wait --for=condition=Ready node/talos --timeout=600s
+  changed_when: false
+  when: not ansible_check_mode
