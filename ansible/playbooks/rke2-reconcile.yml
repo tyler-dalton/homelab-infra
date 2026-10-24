@@ -1,6 +1,7 @@
 ---
 - name: Reconcile Olympus RKE2 servers
   hosts: rke2_servers
+  serial: 1
   become: true
   gather_facts: true
 
