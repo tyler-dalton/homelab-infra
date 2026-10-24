@@ -1,6 +1,6 @@
 ---
 - name: Bootstrap Olympus RKE2 server
-  hosts: helios
+  hosts: orion
   become: true
   gather_facts: true
 
