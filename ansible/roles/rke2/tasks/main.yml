@@ -36,6 +36,21 @@
     path: /usr/local/bin/rke2
   register: rke2_binary
 
+- name: Check for previously staged RKE2 installer
+  ansible.builtin.stat:
+    path: /usr/local/src/install-rke2.sh
+  register: rke2_installer_script
+
+- name: Prevent automatic retry of interrupted RKE2 installation
+  ansible.builtin.assert:
+    that:
+      - rke2_binary.stat.exists or not rke2_installer_script.stat.exists
+    fail_msg: >-
+      An RKE2 installer script exists, but the RKE2 binary is missing.
+      A previous installation may have been interrupted.
+      Inspect the host before attempting another installation.
+    success_msg: "No interrupted RKE2 installer state detected."
+
 - name: Check RKE2 server systemd unit
   ansible.builtin.command:
     cmd: systemctl show --property=LoadState --value rke2-server.service
