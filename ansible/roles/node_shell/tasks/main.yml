@@ -1,0 +1,8 @@
+---
+- name: Deploy managed Bash aliases
+  ansible.builtin.template:
+    src: bash_aliases.j2
+    dest: /home/dalt/.bash_aliases
+    owner: dalt
+    group: dalt
+    mode: "0644"
