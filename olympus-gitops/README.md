@@ -30,8 +30,8 @@ base manifests and add `patches/` only for real overlays.
 ## Migration from the legacy root path
 
 The live root may still watch `olympus-gitops/clusters/olympus`; changing this
-file in Git does not change that live Application. Legacy `clusters/` and
-`infrastructure/` paths are retained until this migration is verified.
+file in Git does not change that live Application. Retain any legacy
+`clusters/` and `infrastructure/` paths until this migration is verified.
 
 After this layout is merged and available to the cluster, re-apply the root:
 
