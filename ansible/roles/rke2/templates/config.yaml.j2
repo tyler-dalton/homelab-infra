@@ -1,6 +1,7 @@
 ---
 token: "{{ rke2_token }}"
 cni: "{{ rke2_cni }}"
+node-ip: "{{ ansible_host }}"
 
 tls-san:
 {% for san in rke2_tls_sans %}
