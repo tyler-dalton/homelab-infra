@@ -1,0 +1,9 @@
+---
+- name: Restart RKE2 server
+  ansible.builtin.systemd_service:
+    name: rke2-server
+    state: restarted
+  when:
+    - not ansible_check_mode
+    - rke2_restart_approved | default(false) | bool
+    - rke2_server_was_running | default(false) | bool

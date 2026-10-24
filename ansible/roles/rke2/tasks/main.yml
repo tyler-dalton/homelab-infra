@@ -67,6 +67,28 @@
     success_msg: "Installed RKE2 version matches pinned release."
   when: rke2_binary.stat.exists
 
+- name: Gather service state before RKE2 configuration changes
+  ansible.builtin.service_facts:
+
+- name: Record whether RKE2 server was already running
+  ansible.builtin.set_fact:
+    rke2_server_was_running: >-
+      {{
+        ansible_facts['services']
+        .get('rke2-server.service', {})
+        .get('state') == 'running'
+      }}
+  changed_when: false
+
+- name: Prevent unintended startup of existing RKE2 server
+  ansible.builtin.assert:
+    that:
+      - not rke2_binary.stat.exists or rke2_server_was_running | bool
+    fail_msg: >-
+      RKE2 is installed, but rke2-server is not running.
+      Inspect the service before allowing Ansible to proceed.
+    success_msg: "RKE2 service state permits deployment."
+
 - name: Create RKE2 configuration directory
   ansible.builtin.file:
     path: /etc/rancher/rke2
@@ -74,6 +96,31 @@
     owner: root
     group: root
     mode: "0700"
+
+- name: Preview RKE2 configuration changes
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: /etc/rancher/rke2/config.yaml
+    owner: root
+    group: root
+    mode: "0600"
+  check_mode: true
+  diff: false
+  no_log: true
+  register: rke2_config_preview
+  when: rke2_server_was_running | bool
+
+- name: Require approval for active RKE2 configuration changes
+  ansible.builtin.assert:
+    that:
+      - not rke2_config_preview.changed or
+        (rke2_restart_approved | default(false) | bool)
+    fail_msg: >-
+      RKE2 configuration changes require explicit restart approval.
+      No configuration changes have been applied.
+  when:
+    - rke2_server_was_running | bool
+    - not ansible_check_mode
 
 - name: Deploy RKE2 server configuration
   ansible.builtin.template:
@@ -83,6 +130,7 @@
     group: root
     mode: "0600"
   no_log: true
+  notify: Restart RKE2 server
 
 - name: Download official RKE2 installation script
   ansible.builtin.get_url:
@@ -109,6 +157,9 @@
     state: started
     daemon_reload: true
   when: not ansible_check_mode
+
+- name: Apply pending RKE2 configuration restarts
+  ansible.builtin.meta: flush_handlers
 
 - name: Wait for Kubernetes API
   ansible.builtin.wait_for:
