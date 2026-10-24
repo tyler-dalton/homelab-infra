@@ -3,7 +3,12 @@
 server: "{{ rke2_server }}"
 {% endif %}
 token: "{{ rke2_token }}"
+
 cni: "{{ rke2_cni }}"
+{% if rke2_disable_kube_proxy | bool %}
+disable-kube-proxy: true
+{% endif %}
+
 node-ip: "{{ ansible_host }}"
 
 {% if rke2_node_taints | default([]) | length > 0 %}

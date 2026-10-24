@@ -1,0 +1,18 @@
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rke2-cilium
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    kubeProxyReplacement: {{ rke2_cilium_kube_proxy_replacement | bool | lower }}
+    k8sServiceHost: "{{ rke2_cilium_k8s_service_host }}"
+    k8sServicePort: "{{ rke2_cilium_k8s_service_port }}"
+    k8sClientRateLimit:
+      qps: {{ rke2_cilium_k8s_client_qps }}
+      burst: {{ rke2_cilium_k8s_client_burst }}
+    gatewayAPI:
+      enabled: {{ rke2_cilium_gateway_api_enabled | bool | lower }}
+    l2announcements:
+      enabled: {{ rke2_cilium_l2_announcements_enabled | bool | lower }}
