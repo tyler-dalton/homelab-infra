@@ -31,6 +31,42 @@
       - rke2_version is match('^v[0-9]+\.[0-9]+\.[0-9]+\+rke2r[0-9]+$')
     fail_msg: "Set rke2_version to a specific RKE2 release tag."
 
+- name: Check whether RKE2 is installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/rke2
+  register: rke2_binary
+
+- name: Check RKE2 server systemd unit
+  ansible.builtin.command:
+    cmd: systemctl show --property=LoadState --value rke2-server.service
+  register: rke2_service_state
+  changed_when: false
+  check_mode: false
+
+- name: Verify RKE2 installation consistency
+  ansible.builtin.assert:
+    that:
+      - (rke2_service_state.stdout | trim) in ['loaded', 'not-found']
+      - "rke2_binary.stat.exists == ((rke2_service_state.stdout | trim) == 'loaded')"
+    fail_msg: "Incomplete RKE2 installation detected. Manual inspection required."
+    success_msg: "RKE2 binary and systemd service installation states are consistent."
+
+- name: Read installed RKE2 version
+  ansible.builtin.command:
+    cmd: /usr/local/bin/rke2 --version
+  register: rke2_installed_version
+  changed_when: false
+  check_mode: false
+  when: rke2_binary.stat.exists
+
+- name: Verify installed RKE2 version matches pinned release
+  ansible.builtin.assert:
+    that:
+      - rke2_installed_version.stdout_lines[0].split()[2] == rke2_version
+    fail_msg: "Installed RKE2 version differs from {{ rke2_version }}. Manual upgrade review required."
+    success_msg: "Installed RKE2 version matches pinned release."
+  when: rke2_binary.stat.exists
+
 - name: Create RKE2 configuration directory
   ansible.builtin.file:
     path: /etc/rancher/rke2
@@ -47,11 +83,6 @@
     group: root
     mode: "0600"
   no_log: true
-
-- name: Check whether RKE2 is installed
-  ansible.builtin.stat:
-    path: /usr/local/bin/rke2
-  register: rke2_binary
 
 - name: Download official RKE2 installation script
   ansible.builtin.get_url:
