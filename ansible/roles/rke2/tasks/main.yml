@@ -185,12 +185,12 @@
     timeout: 600
   when: not ansible_check_mode
 
-- name: Wait for Talos node registration
+- name: Wait for deployed server node registration
   ansible.builtin.command:
     cmd: >
       /var/lib/rancher/rke2/bin/kubectl
       --kubeconfig /etc/rancher/rke2/rke2.yaml
-      wait --for=condition=Ready node/{{ inventory_hostname }} --timeout=600s
+      get node {{ inventory_hostname }}
   register: rke2_node_check
   until: rke2_node_check.rc == 0
   retries: 30
@@ -198,11 +198,11 @@
   changed_when: false
   when: not ansible_check_mode
 
-- name: Wait for Talos node to become Ready
+- name: Wait for deployed server node to become Ready
   ansible.builtin.command:
     cmd: >
       /var/lib/rancher/rke2/bin/kubectl
       --kubeconfig /etc/rancher/rke2/rke2.yaml
-      wait --for=condition=Ready node/talos --timeout=600s
+      wait --for=condition=Ready node/{{ inventory_hostname }} --timeout=600s
   changed_when: false
   when: not ansible_check_mode
