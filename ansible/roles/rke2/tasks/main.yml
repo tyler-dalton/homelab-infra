@@ -134,11 +134,12 @@
 
 - name: Download official RKE2 installation script
   ansible.builtin.get_url:
-    url: https://get.rke2.io
+    url: "https://raw.githubusercontent.com/rancher/rke2/{{ rke2_version }}/install.sh"
     dest: /usr/local/src/install-rke2.sh
     owner: root
     group: root
     mode: "0755"
+    checksum: "sha256:42983c86d1da64a92061d83afb57630cedd69241989f1b0673f3db6c3d92ee6b"
   when: not rke2_binary.stat.exists
 
 - name: Install pinned RKE2 server release
@@ -167,6 +168,7 @@
     port: 6443
     delay: 10
     timeout: 600
+  when: not ansible_check_mode
 
 - name: Wait for Talos node registration
   ansible.builtin.command:
@@ -179,3 +181,4 @@
   retries: 30
   delay: 10
   changed_when: false
+  when: not ansible_check_mode
