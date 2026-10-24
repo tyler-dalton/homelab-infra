@@ -5,12 +5,18 @@ metadata:
   namespace: gateway-system
 spec:
   parentRefs:
-    - name: olympus
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: olympus
       sectionName: argocd-http
   hostnames:
     - argocd.tylerdalton.dev
   rules:
-    - filters:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      filters:
         - type: RequestRedirect
           requestRedirect:
             scheme: https
