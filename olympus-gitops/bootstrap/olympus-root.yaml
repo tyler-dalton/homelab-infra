@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: olympus-root
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # This must be `default` during the first sync: the Olympus AppProject is
+  # created by the source tree this Application reconciles.
+  project: default
+  source:
+    repoURL: https://github.com/tyler-dalton/homelab-infra.git
+    targetRevision: main
+    path: olympus-gitops/clusters/olympus
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
