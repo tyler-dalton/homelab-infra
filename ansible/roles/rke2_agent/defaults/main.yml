@@ -1,0 +1,7 @@
+---
+rke2_api_endpoint: olympus-api.tylerdalton.dev
+rke2_api_vip: 192.168.33.10
+rke2_server: "https://{{ rke2_api_endpoint }}:9345"
+
+rke2_token: "{{ vault_rke2_token }}"
+rke2_version: "v1.37.1+rke2r1"
