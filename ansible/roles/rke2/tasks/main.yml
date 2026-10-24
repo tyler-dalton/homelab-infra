@@ -96,6 +96,7 @@
 - name: Install pinned RKE2 server release
   ansible.builtin.command:
     cmd: /usr/local/src/install-rke2.sh
+    creates: /usr/local/bin/rke2
   environment:
     INSTALL_RKE2_TYPE: server
     INSTALL_RKE2_VERSION: "{{ rke2_version }}"
