@@ -1,0 +1,66 @@
+---
+- name: Restrict kubectl access setup to RKE2 servers
+  ansible.builtin.assert:
+    that:
+      - inventory_hostname in groups['rke2_servers']
+    fail_msg: "This role only supports RKE2 server nodes with a local admin kubeconfig."
+
+- name: Check bundled kubectl binary
+  ansible.builtin.stat:
+    path: "{{ kubectl_access_binary }}"
+  register: kubectl_binary
+
+- name: Check RKE2 admin kubeconfig
+  ansible.builtin.stat:
+    path: "{{ kubectl_access_kubeconfig_source }}"
+  register: kubectl_config
+
+- name: Require an installed RKE2 server
+  ansible.builtin.assert:
+    that:
+      - kubectl_binary.stat.exists
+      - kubectl_config.stat.exists
+    fail_msg: "RKE2 server kubectl or admin kubeconfig is missing; no changes made."
+
+- name: Look up kubectl user
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ kubectl_access_user }}"
+
+- name: Record kubectl user's home directory
+  ansible.builtin.set_fact:
+    kubectl_access_home: "{{ ansible_facts.getent_passwd[kubectl_access_user][4] }}"
+
+- name: Make bundled kubectl available on PATH
+  ansible.builtin.file:
+    src: "{{ kubectl_access_binary }}"
+    dest: /usr/local/bin/kubectl
+    state: link
+    owner: root
+    group: root
+    force: false
+
+- name: Create private kubeconfig directory
+  ansible.builtin.file:
+    path: "{{ kubectl_access_home }}/.kube"
+    state: directory
+    owner: "{{ kubectl_access_user }}"
+    mode: "0700"
+
+- name: Install user-readable local admin kubeconfig
+  ansible.builtin.copy:
+    src: "{{ kubectl_access_kubeconfig_source }}"
+    dest: "{{ kubectl_access_home }}/.kube/config"
+    remote_src: true
+    owner: "{{ kubectl_access_user }}"
+    mode: "0600"
+  no_log: true
+
+- name: Verify kubectl resolves the local node
+  ansible.builtin.command:
+    cmd: /usr/local/bin/kubectl get node {{ inventory_hostname }} -o name
+  become: true
+  become_user: "{{ kubectl_access_user }}"
+  register: kubectl_access_verify
+  changed_when: false
+  when: not ansible_check_mode
