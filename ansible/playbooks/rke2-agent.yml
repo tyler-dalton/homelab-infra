@@ -1,6 +1,6 @@
 ---
 - name: Join Olympus RKE2 agent
-  hosts: argus
+  hosts: daedalus
   become: true
   gather_facts: true
 
