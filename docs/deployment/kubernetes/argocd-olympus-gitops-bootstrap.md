@@ -30,16 +30,18 @@ operational configuration belong in the repository.
 olympus-gitops/
 ├── bootstrap/
 │   └── olympus-root.yaml       # The only Application applied manually
-├── clusters/
-│   └── olympus/
-│       ├── kustomization.yaml
-│       └── project.yaml
-├── infrastructure/             # Cluster-level services, added incrementally
-└── apps/                       # Workload definitions, added incrementally
+└── apps/
+    ├── argocd/resources/project.yaml
+    ├── cilium-networking/
+    │   ├── application.yaml
+    │   └── resources/
+    └── cert-manager/application.yaml
 ```
 
-The `infrastructure/` and `apps/` split is organizational only. Argo CD does
-not treat the directories differently.
+The root Application recursively discovers `*/application.yaml` and the
+Olympus AppProject at `argocd/resources/project.yaml`. Each managed component
+is self-contained under `apps/<app-name>/`; base manifests belong in
+`resources/`, while `patches/` is reserved for actual overlays.
 
 ## Prerequisites
 
@@ -135,8 +137,27 @@ Expected result:
 olympus-root   Synced   Healthy
 ```
 
-At this point Argo CD continuously reads `olympus-gitops/clusters/olympus`
-from Git. No workload is deployed by this bootstrap alone.
+At this point Argo CD continuously discovers Application definitions from
+`olympus-gitops/apps` in Git. No workload is deployed by this bootstrap alone.
+
+### Migrating an existing root Application
+
+If the live root still points to `olympus-gitops/clusters/olympus`, updating
+the bootstrap file in Git does not modify it. After the new layout has been
+merged, apply the bootstrap manifest again, then verify the root source and
+both child Applications before retiring legacy paths:
+
+```bash
+sudo "$K" --kubeconfig "$C" apply -f olympus-gitops/bootstrap/olympus-root.yaml
+sudo "$K" --kubeconfig "$C" -n argocd get application olympus-root \
+  -o jsonpath='{.spec.source.path}{"\\n"}'
+sudo "$K" --kubeconfig "$C" -n argocd get application \
+  olympus-cilium-networking olympus-cert-manager \
+  -o jsonpath='{range .items[*]}{.metadata.name}{": "}{.status.sync.status}{" / "}{.status.health.status}{"\\n"}{end}'
+```
+
+The root path must be `olympus-gitops/apps`; both children must be `Synced /
+Healthy`. Do not delete or recreate Applications during this migration.
 
 ## Next GitOps component
 

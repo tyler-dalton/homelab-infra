@@ -35,17 +35,17 @@ allocation of a particular address to a Kubernetes Service is dynamic.
 
 ## GitOps manifests
 
-The root Kustomization creates the Cilium networking child application:
+The root Application discovers the Cilium networking child application:
 
 ```yaml
-# olympus-gitops/clusters/olympus/kustomization.yaml
-resources:
-  - project.yaml
-  - cilium-networking.yaml
+# olympus-gitops/apps/cilium-networking/application.yaml
+spec:
+  source:
+    path: olympus-gitops/apps/cilium-networking/resources
 ```
 
-That child application reconciles `olympus-gitops/infrastructure/cilium/`,
-which contains:
+That child application reconciles its own `resources/` directory, which
+contains:
 
 - `CiliumLoadBalancerIPPool/olympus-services` — `192.168.33.20-192.168.33.39`
 - `CiliumL2AnnouncementPolicy/olympus-services` — advertises LoadBalancer
