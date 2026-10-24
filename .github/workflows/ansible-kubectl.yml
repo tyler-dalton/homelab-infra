@@ -55,7 +55,7 @@ jobs:
     name: Apply to Olympus servers
     needs: validate
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    runs-on: [self-hosted, linux, olympus-ansible]
+    runs-on: olympus-ansible
     timeout-minutes: 20
     environment: olympus-production
     steps:
@@ -63,11 +63,24 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Verify runner prerequisites
+      - name: Install Ansible and SSH client
         run: |
-          command -v ansible-playbook
-          command -v ssh
-          ansible-playbook --version
+          sudo apt-get update
+          sudo apt-get install -y openssh-client python3-pip
+          python3 -m pip install --break-system-packages 'ansible-core==2.18.10'
+      - name: Configure ephemeral SSH credentials
+        env:
+          SSH_KEY: ${{ secrets.OLYMPUS_SSH_PRIVATE_KEY }}
+          SSH_HOST_KEYS: ${{ secrets.OLYMPUS_SSH_KNOWN_HOSTS }}
+        run: |
+          test -n "$SSH_KEY" && test -n "$SSH_HOST_KEYS"
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$SSH_KEY" > "$HOME/.ssh/id_ed25519"
+          chmod 600 "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$SSH_HOST_KEYS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
+          printf 'Host *\n  StrictHostKeyChecking yes\n  BatchMode yes\n' > "$HOME/.ssh/config"
+          chmod 600 "$HOME/.ssh/config"
       - name: Check target connectivity
         working-directory: ansible
         run: ansible rke2_servers -m ansible.builtin.ping
