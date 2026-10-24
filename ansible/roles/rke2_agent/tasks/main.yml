@@ -1,0 +1,81 @@
+---
+- name: Confirm Olympus RKE2 agent configuration is defined
+  ansible.builtin.assert:
+    that:
+      - rke2_api_endpoint | length > 0
+      - rke2_api_vip | length > 0
+      - rke2_server | length > 0
+      - rke2_token | length >= 32
+      - rke2_version is match('^v[0-9]+\\.[0-9]+\\.[0-9]+\\+rke2r[0-9]+$')
+  no_log: true
+
+- name: Resolve Olympus API endpoint
+  ansible.builtin.command:
+    cmd: "getent ahostsv4 {{ rke2_api_endpoint }}"
+  register: rke2_endpoint_resolution
+  changed_when: false
+  check_mode: false
+
+- name: Assert Olympus API endpoint resolves to the VIP
+  ansible.builtin.assert:
+    that:
+      - rke2_api_vip in rke2_endpoint_resolution.stdout
+
+- name: Check whether RKE2 is installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/rke2
+  register: rke2_binary
+
+- name: Create RKE2 configuration directory
+  ansible.builtin.file:
+    path: /etc/rancher/rke2
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Deploy RKE2 agent configuration
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: /etc/rancher/rke2/config.yaml
+    owner: root
+    group: root
+    mode: "0600"
+  no_log: true
+
+- name: Download official RKE2 installation script
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/rancher/rke2/{{ rke2_version }}/install.sh"
+    dest: /usr/local/src/install-rke2.sh
+    owner: root
+    group: root
+    mode: "0755"
+    checksum: "sha256:42983c86d1da64a92061d83afb57630cedd69241989f1b0673f3db6c3d92ee6b"
+  when: not rke2_binary.stat.exists
+
+- name: Install pinned RKE2 agent release
+  ansible.builtin.command:
+    cmd: /usr/local/src/install-rke2.sh
+    creates: /usr/local/bin/rke2
+  environment:
+    INSTALL_RKE2_TYPE: agent
+    INSTALL_RKE2_VERSION: "{{ rke2_version }}"
+  when: not rke2_binary.stat.exists
+
+- name: Enable and start RKE2 agent
+  ansible.builtin.systemd_service:
+    name: rke2-agent
+    enabled: true
+    state: started
+    daemon_reload: true
+  when: not ansible_check_mode
+
+- name: Wait for deployed agent node to become Ready
+  ansible.builtin.command:
+    cmd: >
+      /var/lib/rancher/rke2/bin/kubectl
+      --kubeconfig /etc/rancher/rke2/rke2.yaml
+      wait --for=condition=Ready node/{{ inventory_hostname }} --timeout=600s
+  delegate_to: talos
+  changed_when: false
+  when: not ansible_check_mode
