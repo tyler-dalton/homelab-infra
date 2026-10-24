@@ -1,6 +1,6 @@
 ---
 - name: Bootstrap Olympus RKE2 server
-  hosts: talos
+  hosts: helios
   become: true
   gather_facts: true
 
