@@ -1,4 +1,7 @@
 ---
+{% if rke2_server is defined %}
+server: "{{ rke2_server }}"
+{% endif %}
 token: "{{ rke2_token }}"
 cni: "{{ rke2_cni }}"
 node-ip: "{{ ansible_host }}"
