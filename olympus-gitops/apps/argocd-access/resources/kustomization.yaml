@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - argocd-server-params.yaml
   - https-route.yaml
+  - argocd-config.yaml
