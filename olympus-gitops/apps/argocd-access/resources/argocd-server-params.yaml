@@ -1,4 +1,4 @@
-# The Gateway terminates client TLS.  argocd-server therefore serves HTTP only
+# The Gateway terminates client TLS. argocd-server therefore serves HTTP only
 # behind the ClusterIP Service; it is not exposed directly outside the cluster.
 apiVersion: v1
 kind: ConfigMap
@@ -9,3 +9,4 @@ metadata:
     argocd.argoproj.io/sync-options: ServerSideApply=true
 data:
   server.insecure: "true"
+  redis.server: "argocd-redis-ha-haproxy:6379"
