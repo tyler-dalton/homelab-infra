@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - resources/namespace.yaml
+  - resources/postgres-pv.yaml
+  - resources/postgres-pvc.yaml
+  - resources/postgres-service.yaml
+  - resources/postgres-sealedsecret.yaml
+  - resources/postgres-statefulset.yaml
