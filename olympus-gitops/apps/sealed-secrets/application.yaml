@@ -11,8 +11,6 @@ spec:
     repoURL: https://github.com/tyler-dalton/homelab-infra.git
     targetRevision: main
     path: olympus-gitops/apps/sealed-secrets
-    kustomize:
-      version: v5.7.0
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
