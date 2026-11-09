@@ -8,7 +8,7 @@ metadata:
 spec:
   parentRefs:
     - group: gateway.networking.k8s.io
-      kind: gateway
+      kind: Gateway
       name: olympus
       namespace: gateway-system
       sectionName: apps-https
