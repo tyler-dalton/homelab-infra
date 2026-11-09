@@ -8,3 +8,7 @@ resources:
   - resources/postgres-service.yaml
   - resources/postgres-sealedsecret.yaml
   - resources/postgres-statefulset.yaml
+  - resources/keycloak-admin-sealedsecret.yaml
+  - resources/keycloak-deployment.yaml
+  - resources/keycloak-service.yaml
+  - resources/httproute.yaml
