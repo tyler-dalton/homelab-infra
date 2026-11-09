@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: olympus-sealed-secrets
-  namespace: sealed-secrets
+  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
 spec:
