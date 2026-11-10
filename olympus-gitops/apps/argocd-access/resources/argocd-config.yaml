@@ -17,6 +17,37 @@ data:
     issuer: https://keycloak.apps.tylerdalton.dev/realms/olympus
     clientID: argocd
     clientSecret: $oidc.keycloak.clientSecret
+    rootCA: |
+      -----BEGIN CERTIFICATE-----
+      MIIFHTCCAwWgAwIBAgIUWQOh8Um3h0Dh72SSaaTylVmNSVcwDQYJKoZIhvcNAQEL
+      BQAwHjEcMBoGA1UEAwwTT2x5bXB1cyBJbnRlcm5hbCBDQTAeFw0yNjEwMjQwNjI4
+      NDBaFw0zNjEwMjEwNjI4NDBaMB4xHDAaBgNVBAMME09seW1wdXMgSW50ZXJuYWwg
+      Q0EwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQC+k2jLWjMBmOX6QJGU
+      GWYny8G9YQo0k+Vqic5q3qzjxTkBOe3zRBjRm9rBVsRgB6fqs6zHDgLBH2XjVMvy
+      r8sRulWy9bCAIynnm3s69mHPkxprgL4uuSiDJNKDoRwjM3t0pF2csEng+eDr/F9b
+      V60HUtyTqCQdm/C7AYvB9fTHEHx7ju5MGzwWBOKHHN/VwK6dk0hukp2K4NyzK3kx
+      tUUl1gOp4c0ry/yWfibM+IQ+tN9x/2uXy8ne0TMUAMYezRGMhXjrrskSMCOeF7RC
+      p8WTKycdD+3Rio3yNB7/jSfg0f+aXFDkZrV5IhiENcBtfB33DZZn4gNn0h5vvjEP
+      oIIKSBsiyPmRpXYrbIZMJPHXL3f4183D1bmHRDr4PiLZZY4N39Ylqx4lCJTKlaZG
+      amx4J5jIaK/e28F57wOuYOfCBa5232X40C9dC88DmSyoAXHCjq0hjZ/zfoUqBoxG
+      G8+nuhvzPNUcwQSOZOiHg5j1u0dmwpAXMyWFKKadcbYJ/oDCqyfLLZs6yar2/I5o
+      +HMToK+UvDVR8rgkyu88idVhZ8W/yvPNzgKayzUycQFf9rbKfeMER9WNN3qb7LKK
+      AUvogk9bUUuLU+ta64z/K87ThaLaeKPl6nOZLs7NF/k75hO7xmCgHHXtQ+fSXRhP
+      TWG++LYV3x+Hg3OPiXuz+Po4oQIDAQABo1MwUTAdBgNVHQ4EFgQUq6iIfxmxchAV
+      TWZU12q5U6fvsxwwHwYDVR0jBBgwFoAUq6iIfxmxchAVTWZU12q5U6fvsxwwDwYD
+      VR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAgEArDo3FU2rMWbj41mtEKoa
+      Ju6pYXJ1da3pstKdZw3hKJkoZYPlKxG9E1ut1r9aeAH1+INS/b+P1Xu+tKbDo6Ki
+      BPaS1vqzZvtVIPFHJKE3y5qr1K6aB4/2GLUrkbSLhVYr8AVM0HTosMGVK/ABGYND
+      WGNnK4nkLU2+zXTxtrVm+K2pkGtl3TSB/I0//7zpTZr9XRBlKhB8eyW5CVsd3Tbv
+      PhQLeUQirKAuGueu6+i7ovtjwVSKHwY0i8bazpQChfu2phuloekstMiFa+jSnuTK
+      zggMt6dllchf1UzfK67+SANMTw7EcIeuDAVgDudCAu25+QRRj217jUUHnNpHqQmG
+      +fq50w/UanM6e4WLpLZ6WY48RbMN7iYDhKOWBCRiTvYzXJ2Sa0IGhHdVelSCxIM4
+      UDMwzEBDui7qLaKtXSN99B5F0iiY4VHGw6p4ZFVAMyNYEporOl2c1xDo6/NJQjLi
+      FGBf2AJn0QIDllYaycaZzxu2Q9zLtd1/JsOzhmcDzAPtCPD5EnUaASmuOtFdVOn5
+      wrTwMu6GZA9XFeYuGxaWUS4QfzPVA6PyRizLiy8iA9OLqUJCpTu7o+F0CaCSLal+
+      uDB2tLjCa7Uf8BX8fh0lIMlDs89fX09IvE2NcyVELvvjTxKpw9V2YUVXPPJvZARo
+      IbHk1tXBxuiD0i/TTn2/NV8=
+      -----END CERTIFICATE-----
     requestedScopes:
       - openid
       - profile
