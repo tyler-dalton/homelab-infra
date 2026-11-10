@@ -1,0 +1,7 @@
+# Include YAML configuration in GitHub language statistics
+*.yaml linguist-detectable=true
+*.yml linguist-detectable=true
+
+# Explicitly classify YAML files
+*.yaml linguist-language=YAML
+*.yml linguist-language=YAML
