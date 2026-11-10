@@ -16,7 +16,7 @@ data:
     name: Keycloak
     issuer: https://keycloak.apps.tylerdalton.dev/realms/olympus
     clientID: argocd
-    clientSecret: $oidc.keycloak.clientSecret
+    clientSecret: $argocd-oidc-secret:oidc.keycloak.clientSecret
     rootCA: |
       -----BEGIN CERTIFICATE-----
       MIIFHTCCAwWgAwIBAgIUWQOh8Um3h0Dh72SSaaTylVmNSVcwDQYJKoZIhvcNAQEL
