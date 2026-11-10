@@ -9,3 +9,16 @@ metadata:
     argocd.argoproj.io/sync-options: ServerSideApply=true
 data:
   kustomize.buildOptions: "--enable-helm"
+
+  url: https://argocd.tylerdalton.dev
+
+  oidc.config: |
+    name: Keycloak
+    issuer: https://keycloak.apps.tylerdalton.dev/realms/olympus
+    clientID: argocd
+    clientSecret: $oidc.keycloak.clientSecret
+    requestedScopes:
+      - openid
+      - profile
+      - email
+      - groups
