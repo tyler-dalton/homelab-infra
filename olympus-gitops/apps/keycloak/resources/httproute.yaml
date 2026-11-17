@@ -8,10 +8,14 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   parentRefs:
-    - name: olympus
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: olympus
       namespace: gateway-system
       sectionName: apps-https
-    - name: olympus
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: olympus
       namespace: gateway-system
       sectionName: k8s-https
   hostnames:
@@ -23,5 +27,8 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: keycloak
+        - group: ""
+          kind: Service
+          name: keycloak
           port: 8080
+          weight: 1
