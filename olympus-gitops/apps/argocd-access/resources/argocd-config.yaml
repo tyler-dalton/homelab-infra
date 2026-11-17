@@ -14,7 +14,7 @@ data:
 
   oidc.config: |
     name: Keycloak
-    issuer: https://keycloak.k8s.tylerdalton.dev/realms/olympus
+    issuer: https://keycloak.apps.tylerdalton.dev/realms/olympus
     clientID: argocd
     clientSecret: $argocd-oidc-secret:oidc.keycloak.clientSecret
     rootCA: |
