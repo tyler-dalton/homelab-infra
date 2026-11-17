@@ -10,14 +10,8 @@ spec:
       kind: Gateway
       name: olympus
       namespace: gateway-system
-      sectionName: argocd-https
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: olympus
-      namespace: gateway-system
       sectionName: k8s-https
   hostnames:
-    - argocd.tylerdalton.dev
     - argocd.k8s.tylerdalton.dev
   rules:
     - matches:
