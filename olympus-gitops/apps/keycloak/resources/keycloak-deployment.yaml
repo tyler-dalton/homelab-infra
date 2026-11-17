@@ -51,7 +51,7 @@ spec:
                   name: keycloak-admin
                   key: KC_BOOTSTRAP_ADMIN_PASSWORD
             - name: KC_HOSTNAME
-              value: https://keycloak.apps.tylerdalton.dev
+              value: https://keycloak.k8s.tylerdalton.dev
             - name: KC_HTTP_ENABLED
               value: "true"
             - name: KC_PROXY_HEADERS
