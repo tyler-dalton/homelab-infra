@@ -12,14 +12,8 @@ spec:
       kind: Gateway
       name: olympus
       namespace: gateway-system
-      sectionName: apps-https
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: olympus
-      namespace: gateway-system
       sectionName: k8s-https
   hostnames:
-    - keycloak.apps.tylerdalton.dev
     - keycloak.k8s.tylerdalton.dev
   rules:
     - matches:
