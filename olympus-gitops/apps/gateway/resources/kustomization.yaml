@@ -5,3 +5,4 @@ resources:
   - gateway.yaml
   - argocd-http-redirect.yaml
   - apps-http-redirect.yaml
+  - http-redirect.yaml
