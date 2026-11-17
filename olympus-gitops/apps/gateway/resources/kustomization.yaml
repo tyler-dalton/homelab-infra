@@ -3,6 +3,4 @@ kind: Kustomization
 resources:
   - certificate.yaml
   - gateway.yaml
-  - argocd-http-redirect.yaml
-  - apps-http-redirect.yaml
   - http-redirect.yaml
