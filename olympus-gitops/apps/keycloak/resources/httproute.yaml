@@ -1,3 +1,4 @@
+
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -7,21 +8,20 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   parentRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: olympus
+    - name: olympus
       namespace: gateway-system
       sectionName: apps-https
+    - name: olympus
+      namespace: gateway-system
+      sectionName: k8s-https
   hostnames:
     - keycloak.apps.tylerdalton.dev
+    - keycloak.k8s.tylerdalton.dev
   rules:
     - matches:
         - path:
             type: PathPrefix
             value: /
       backendRefs:
-        - group: ""
-          kind: Service
-          name: keycloak
+        - name: keycloak
           port: 8080
-          weight: 1
