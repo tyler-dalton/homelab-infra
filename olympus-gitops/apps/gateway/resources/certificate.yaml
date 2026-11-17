@@ -7,8 +7,6 @@ spec:
   secretName: olympus-gateway-tls
   commonName: argocd.tylerdalton.dev
   dnsNames:
-    - argocd.tylerdalton.dev
-    - '*.apps.tylerdalton.dev'
     - '*.k8s.tylerdalton.dev'
   issuerRef:
     name: olympus-internal-ca
