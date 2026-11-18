@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - argocd-server-params.yaml
-  - https-route.yaml
-  - argocd-config.yaml
-  - argocd-rbac.yaml
-  - argocd-oidc-sealedsecret.yaml
+  - httproute.yaml
+  - config.yaml
+  - oidc-config.yaml
+  - oidc-secret.yaml
